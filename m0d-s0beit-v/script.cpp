@@ -304,7 +304,8 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 					}
 					Vector3 playerCoordinate = ENTITY::GET_ENTITY_COORDS(debugPed, FALSE); //Dereck B? On your bike!
 					float playerHeading = ENTITY::GET_ENTITY_HEADING(debugPed);
-					draw_menu_line(" x: " + std::to_string(playerCoordinate.x) + " y: " + std::to_string(playerCoordinate.y) + " z: " + std::to_string(playerCoordinate.z) + " heading: " + std::to_string(playerHeading), 15.0f, 4.0f, 13.0f, 550.0f, 5.0f, false, false, false);
+					float playerSpeed = ENTITY::GET_ENTITY_SPEED(debugPed) * 3.6;
+					draw_menu_line(" x: " + std::to_string(round(playerCoordinate.x)) + " y: " + std::to_string(round(playerCoordinate.y)) + " z: " + std::to_string(round(playerCoordinate.z)) + " heading: " + std::to_string(round(playerHeading)) + " speed: " + std::to_string(round(playerSpeed)), 15.0f, 4.0f, 13.0f, 550.0f, 5.0f, false, false, false);
 					static bool bF11Pressed;
 					if (isKeyPressedOnce(bF11Pressed, VK_F11))
 					{
@@ -350,23 +351,23 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 					if (!bHackHidden)
 					{
 						//Hack modes for Inside menu
-						draw_rect_sc(menuTop, menuLeft, menuWidth, 13.0f * 19);
+						draw_rect_sc(menuTop, menuLeft, menuWidth, 13.0f * 18);
 						draw_menu_line("F10			- Hack Hidden", menuWidth, 4.0f, menuTop + 13.0f * 3, menuLeft, 5.0f, bHackHidden, false, bHackHidden, false);
 						draw_menu_line("Pageup		- Prev player in list", menuWidth, 4.0f, menuTop + 13.0f * 4, menuLeft, 5.0f, false, false, false, false);
 						draw_menu_line("Pagedown	- Next player in list", menuWidth, 4.0f, menuTop + 13.0f * 5, menuLeft, 5.0f, false, false, false, false);
 						draw_menu_line("Numpad/		- Give player all weapons", menuWidth, 4.0f, menuTop + 13.0f * 6, menuLeft, 5.0f, false, false, false, false);
 						draw_menu_line("Numpad.		- Teleport to player vehicle", menuWidth, 4.0f, menuTop + 13.0f * 7, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad-		- Spawn money for player", menuWidth, 4.0f, menuTop + 13.0f * 8, menuLeft, 5.0f, bMoneyDropActive, false, bMoneyDropActive, false);
-						draw_menu_line("Numpad1		- Explode player", menuWidth, 4.0f, menuTop + 13.0f * 9, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("N1+Rcont		- Frame player", menuWidth, 4.0f, menuTop + 13.0f * 10, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad2	- Clone player vehicle", menuWidth, 4.0f, menuTop + 13.0f * 11, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad3	- Remove all weapons", menuWidth, 4.0f, menuTop + 13.0f * 12, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad4	- Pay and sprayclone", menuWidth, 4.0f, menuTop + 13.0f * 13, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad5	- spectate player", menuWidth, 4.0f, menuTop + 13.0f * 14, menuLeft, 5.0f, bSpectateMode, false, bSpectateMode, false);
-						draw_menu_line("Numpad6	- attach basketball", menuWidth, 4.0f, menuTop + 13.0f * 15, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad7	- jack ride", menuWidth, 4.0f, menuTop + 13.0f * 16, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad8	- remove player from vehicle", menuWidth, 4.0f, menuTop + 13.0f * 17, menuLeft, 5.0f, false, false, false, false);
-						draw_menu_line("Numpad9	- crash player", menuWidth, 4.0f, menuTop + 13.0f * 18, menuLeft, 5.0f, false, false, false, false);
+						//draw_menu_line("Numpad-		- Spawn money for player", menuWidth, 4.0f, menuTop + 13.0f * 8, menuLeft, 5.0f, bMoneyDropActive, false, bMoneyDropActive, false);
+						draw_menu_line("Numpad1		- Explode player", menuWidth, 4.0f, menuTop + 13.0f * 8, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("N1+Rcont		- Frame player", menuWidth, 4.0f, menuTop + 13.0f * 9, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("Numpad2	- Clone player vehicle", menuWidth, 4.0f, menuTop + 13.0f * 10, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("Numpad3	- Remove all weapons", menuWidth, 4.0f, menuTop + 13.0f * 11, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("Numpad4	- Pay and sprayclone", menuWidth, 4.0f, menuTop + 13.0f * 12, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("Numpad5	- spectate player", menuWidth, 4.0f, menuTop + 13.0f * 13, menuLeft, 5.0f, bSpectateMode, false, bSpectateMode, false);
+						draw_menu_line("Numpad6	- attach basketball", menuWidth, 4.0f, menuTop + 13.0f * 14, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("Numpad7	- jack ride", menuWidth, 4.0f, menuTop + 13.0f * 15, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("Numpad8	- remove player from vehicle", menuWidth, 4.0f, menuTop + 13.0f * 16, menuLeft, 5.0f, false, false, false, false);
+						draw_menu_line("Numpad9	- crash player", menuWidth, 4.0f, menuTop + 13.0f * 17, menuLeft, 5.0f, false, false, false, false);
 					}
 
 					static int iSelectedPlayer = 0;
@@ -566,6 +567,7 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 					}
 
 					//switch for moneydrop
+					/*
 					if (isKeyPressedOnce(bSubtractPressed, VK_SUBTRACT))
 					{
 						if (bMoneyDropActive){
@@ -580,6 +582,7 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 					{
 						DropMoneyonSelectedPlayer(selectedPed);
 					}
+					*/
 
 					//Give all weapons to selected player
 					static bool bDividePressed = false;
@@ -615,7 +618,7 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 			{
 				if (!bHackHidden){
 					//Hack modes for outside menu
-					draw_rect_sc(menuTop, menuLeft, menuWidth, 13.0f * 19);
+					draw_rect_sc(menuTop, menuLeft, menuWidth, 13.0f * 18);
 					draw_menu_line("F8			- Max ammo", menuWidth, 4.0f, menuTop + 13.0f * 3, menuLeft, 5.0f, false, false, false, false);
 					draw_menu_line("F9			- Remove Junk", menuWidth, 4.0f, menuTop + 13.0f * 4, menuLeft, 5.0f, false, false, false, false);
 					draw_menu_line("F10			- Hack Hidden", menuWidth, 4.0f, menuTop + 13.0f * 5, menuLeft, 5.0f, bHackHidden, false, bHackHidden, false);
@@ -628,10 +631,10 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 					draw_menu_line("Numpad5	- Kill speaking peasants", menuWidth, 4.0f, menuTop + 13.0f * 12, menuLeft, 5.0f, bKillSpeakers, false, bKillSpeakers, false);
 					draw_menu_line("Numpad6	- Enforce No-Flyzone", menuWidth, 4.0f, menuTop + 13.0f * 13, menuLeft, 5.0f, false, false, false, false);
 					draw_menu_line("Numpad7	- Teleport to objective", menuWidth, 4.0f, menuTop + 13.0f * 14, menuLeft, 5.0f, false, false, false, false);
-					draw_menu_line("Numpad8	- Fountain of gold", menuWidth, 4.0f, menuTop + 13.0f * 15, menuLeft, 5.0f, bMoneyFountainActive, false, bMoneyFountainActive, false);
-					draw_menu_line("Numpad9	- Kill all targets on map", menuWidth, 4.0f, menuTop + 13.0f * 16, menuLeft, 5.0f, bKillTargetsActive, false, bKillTargetsActive, false);
-					draw_menu_line("Numpad+	- Increase wanted level", menuWidth, 4.0f, menuTop + 13.0f * 17, menuLeft, 5.0f, false, false, false, false);
-					draw_menu_line("Numpad*		- Remove wanted level", menuWidth, 4.0f, menuTop + 13.0f * 18, menuLeft, 5.0f, false, false, false, false);
+					//draw_menu_line("Numpad8	- Fountain of gold", menuWidth, 4.0f, menuTop + 13.0f * 15, menuLeft, 5.0f, bMoneyFountainActive, false, bMoneyFountainActive, false);
+					draw_menu_line("Numpad9	- Kill all targets on map", menuWidth, 4.0f, menuTop + 13.0f * 15, menuLeft, 5.0f, bKillTargetsActive, false, bKillTargetsActive, false);
+					draw_menu_line("Numpad+	- Increase wanted level", menuWidth, 4.0f, menuTop + 13.0f * 16, menuLeft, 5.0f, false, false, false, false);
+					draw_menu_line("Numpad*		- Remove wanted level", menuWidth, 4.0f, menuTop + 13.0f * 17, menuLeft, 5.0f, false, false, false, false);
 				}
 
 				static bool bNumpad1Pressed;
@@ -719,6 +722,7 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 					drawNotification("Player fixed");
 				}
 
+				/*
 				static bool bNumpad8Pressed;
 				if (isKeyPressedOnce(bNumpad8Pressed, VK_NUMPAD8))
 				{
@@ -730,6 +734,7 @@ void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and 
 					}
 					bMoneyFountainActive = !bMoneyFountainActive;
 				}
+				*/
 				
 
 				//Shoot all spaghettios (Fuck Deliver EMP)
